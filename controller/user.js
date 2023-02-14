@@ -52,11 +52,12 @@ const userPut = async (req, res = response) => {
 }
 const userDelete = async (req, res = response) => {
     const id = req.params.id;
-
     const user = await User.findByIdAndUpdate(id, { active: false });
+    const userAuth = req.user;
 
     res.json({
-        user
+        user,
+        userAuth
     })
 }
 

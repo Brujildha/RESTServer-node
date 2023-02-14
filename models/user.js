@@ -15,8 +15,7 @@ const UserSchema = Schema({
     password: {
         type: String,
         required: [true, 'password required'],
-        minlength: 6,
-        select: false
+        minlength: 6
     },
     img: {
         type: String
@@ -38,7 +37,8 @@ const UserSchema = Schema({
 });
 
 UserSchema.methods.toJSON = function () {
-    const { __v, password, ...user } = this.toObject();
+    const { __v, password, _id, ...user } = this.toObject();
+    user.uid = _id;
     return user;
 }
 

@@ -1,3 +1,6 @@
 # WebServer + RESTServer
+CRUD with authentication and authorization using JWT authentication
 
-Remember execute ```npm install``` this is to build the node_modules.
+
+## Installation
+Execute ```npm install``` this is to build the node_modules.
