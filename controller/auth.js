@@ -1,7 +1,10 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
+
 const User = require('../models/user');
+
 const { createJWT } = require('../helpers/create-jwt');
+const { googleVerify } = require('../helpers/google-verify');
 
 const login = async (req, res = response) => {
     const { email, password } = req.body;
@@ -34,7 +37,47 @@ const login = async (req, res = response) => {
         });
     }
 }
+const googleAuth = async (req, res = response) => {
+    const { id_token } = req.body;
 
+    try {
+        const { username, picture, email } = await googleVerify(id_token);
+
+        let user = await User.findOne({ email });
+        if (!user) {
+            const data = {
+                username,
+                email,
+                password: 'changeme',
+                picture,
+                google: true
+            };
+            user = new User(data);
+            await user.save();
+
+        }
+
+        if (!user.active) {
+            return request.status(401).json({
+                message: 'User not active'
+            })
+        }
+
+        const token = await createJWT(user.id);
+
+        res.json({
+            user,
+            token
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            message: 'Authentication failed',
+            ok: false
+        })
+    }
+}
 module.exports = {
-    login
+    login,
+    googleAuth
 }
