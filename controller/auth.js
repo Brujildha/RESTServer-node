@@ -41,7 +41,7 @@ const googleAuth = async (req, res = response) => {
     const { id_token } = req.body;
 
     try {
-        const { username, picture, email } = await googleVerify(id_token);
+        const { username, img, email } = await googleVerify(id_token);
 
         let user = await User.findOne({ email });
         if (!user) {
@@ -49,7 +49,7 @@ const googleAuth = async (req, res = response) => {
                 username,
                 email,
                 password: 'changeme',
-                picture,
+                img,
                 google: true
             };
             user = new User(data);

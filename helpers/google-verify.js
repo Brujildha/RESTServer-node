@@ -7,11 +7,11 @@ async function googleVerify(token = '') {
         idToken: token,
         audience: process.env.GOOGLE_CLIENT_ID,
     });
-    const { name: username, picture, email } = ticket.getPayload();
+    const { name: username, picture: img, email } = ticket.getPayload();
 
     return {
         username,
-        picture,
+        img,
         email
     }
 }
