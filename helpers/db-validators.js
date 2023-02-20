@@ -37,10 +37,19 @@ const existsProductId = async (id = '') => {
         throw new Error('Id is not exists');
     }
 }
+
+const collectionAdmit = (collection = '', collections = []) => {
+    const includes = collections.includes(collection);
+    if (!includes) {
+        throw new Error(`Collection ${collection} does not admit, ${collections}`);
+    }
+    return true;
+}
 module.exports = {
     isValidRole,
     existsEmail,
     existsId,
     existsCategoryId,
-    existsProductId
+    existsProductId,
+    collectionAdmit
 }
