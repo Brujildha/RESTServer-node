@@ -77,7 +77,20 @@ const googleAuth = async (req, res = response) => {
         })
     }
 }
+
+const updateToken = async (req, res) => {
+    const { user } = req;
+    const token = await createJWT(user.id);
+
+    res.json({
+        user,
+        token
+    })
+}
+
+
 module.exports = {
     login,
-    googleAuth
+    googleAuth,
+    updateToken
 }
